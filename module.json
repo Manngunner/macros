@@ -2,7 +2,7 @@
     "id": "foundry_community_macros",
     "title": "Foundry Community Macros",
     "description": "<p>This is a collection of Macros added by the FoundryVTT Community!<br><br>You can add your own macros by making a pull request here: https://github.com/foundry-vtt-community/macros</p>",
-    "version": "10.1",
+    "version": "10.4",
     "authors": [
         {
             "name": "FoundryVTTCommunity"
@@ -20,6 +20,13 @@
             "name": "community-macros-age",
             "label": "FVTT Community Macros - AGE System",
             "path": "packs/macros-age.db",
+            "module": "foundry_community_macros",
+            "type": "Macro"
+        },
+        {
+            "name": "community-macros-dsa5e",
+            "label": "FVTT Community Macros - The Dark Eye 5e",
+            "path": "packs/macros-dsa5e.db",
             "module": "foundry_community_macros",
             "type": "Macro"
         },
@@ -75,7 +82,7 @@
     ],
     "url": "https://github.com/foundry-vtt-community/macros",
     "manifest": "https://raw.githubusercontent.com/foundry-vtt-community/macros/main/module.json",
-    "download": "https://github.com/foundry-vtt-community/macros/archive/refs/tags/v10.1.zip",
+    "download": "https://github.com/foundry-vtt-community/macros/archive/refs/tags/v10.4.zip",
     "bugs": "https://github.com/foundry-vtt-community/macros/issues",
     "readme": "https://raw.githubusercontent.com/foundry-vtt-community/macros/main/README.md",
     "changelog": "https://github.com/foundry-vtt-community/macros/releases",
