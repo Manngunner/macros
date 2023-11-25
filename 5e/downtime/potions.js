@@ -20,34 +20,34 @@ const content = `
             <input id="days-amount" type="number" name="inputField" autofocus>
             </div>
         </form>`;
-function applywork (html) {
+function applywork(html) {
   // Yoink the input field
-  const result = html.find('input[name=\'inputField\']');
+  const result = html.find("input[name='inputField']");
   // Make sure the result is not empty
   let days = 0;
-  if (result.val() !== '') {
+  if (result.val() !== "") {
     days = result.val();
   }
   main(days);
 }
 new Dialog({
-  title: 'Enter number of days',
+  title: "Enter number of days",
   content,
   buttons: {
     apply: {
       // Shove the resulting html into the function
       callback: (html) => applywork(html),
       icon: '<i class="fa-thin fa-timer"></i>',
-      label: 'Downtime!'
-    }
-  }
+      label: "Downtime!",
+    },
+  },
 }).render(true);
 
-async function main (days) {
+async function main(days) {
   // This is a JavaScript comment
   // Check to see if active character. If not, chat error
   if (character == null) {
-    ui.notifications.error('You have no selected character');
+    ui.notifications.error("You have no selected character");
     return;
   }
   // Do this to yoink all the possible rolls for a character
@@ -55,8 +55,12 @@ async function main (days) {
   // Don't know if I need to do this tbh
   const arcmod = actor.skills.arc.total;
   // See if user has proficiency with Alchemist's supplies
-  const hasprof = character.items.filter(item => item.name.match(/^Alchemist.s Supplies$/) && Object.prototype.hasOwnProperty.call(item.system, 'proficient'));
-  let rollmethod = '';
+  const hasprof = character.items.filter(
+    (item) =>
+      item.name.match(/^Alchemist.s Supplies$/) &&
+      Object.prototype.hasOwnProperty.call(item.system, "proficient")
+  );
+  let rollmethod = "";
   // Roll normally if not, and advantage if so
   if (hasprof.length === 0) {
     rollmethod = `1d20+${arcmod}`;
@@ -113,23 +117,26 @@ async function main (days) {
   // Send relevant messages
   ChatMessage.create({ content: chatMsg, speaker: ChatMessage.getSpeaker() });
   // Check to see if a complication arises and output a message if so
-  const complicationroll = await new Roll('1d100').evaluate({ async: true });
+  const complicationroll = await new Roll("1d100").evaluate({ async: true });
   if (complicationroll.total <= 10) {
-    ChatMessage.create({ content: 'Complication!', speaker: ChatMessage.getSpeaker() });
+    ChatMessage.create({
+      content: "Complication!",
+      speaker: ChatMessage.getSpeaker(),
+    });
   }
   // Just debug stuff
   if (debug === true) {
-    console.log('Basemultiplier: ' + basemultiplier);
-    console.log('Days: ' + days);
+    console.log("Basemultiplier: " + basemultiplier);
+    console.log("Days: " + days);
     console.log(character);
     console.log(actor);
-    console.log('Arcane mod: ' + arcmod);
+    console.log("Arcane mod: " + arcmod);
     if (hasprof.length === 0) {
-      console.log('No tools and/or prof');
+      console.log("No tools and/or prof");
     } else {
-      console.log('Has tools and prof');
+      console.log("Has tools and prof");
     }
-    console.log('Roll method: ' + rollmethod);
-    console.log('Complication roll: ' + complicationroll.result);
+    console.log("Roll method: " + rollmethod);
+    console.log("Complication roll: " + complicationroll.result);
   }
 }

@@ -1,9 +1,9 @@
 /* global Roll, character, ui, ChatMessage */
-async function main () {
+async function main() {
   // This is a JavaScript comment
   // Check to see if active character. If not, chat error
   if (character == null) {
-    ui.notifications.error('You have no selected character');
+    ui.notifications.error("You have no selected character");
     return;
   }
   // Do this to yoink all the possible rolls for a character
@@ -14,19 +14,28 @@ async function main () {
   // Pick the highest hit die from all classes
   let highestdie = false;
   for (let i = 0; i < Object.keys(actor.classes).length; i++) {
-    const newdie = actor.classes[Object.keys(actor.classes)[i]].hitDice.slice(1);
+    const newdie =
+      actor.classes[Object.keys(actor.classes)[i]].hitDice.slice(1);
     if (newdie > highestdie) {
       highestdie = newdie;
     }
   }
   // Do all the relevant rolls
-  const athleticsroll = await new Roll(`1d20+${athmod}`).evaluate({ async: true });
-  const acrobaticsroll = await new Roll(`1d20+${acrmod}`).evaluate({ async: true });
-  const constitutionroll = await new Roll(`1d20+1d${highestdie}`).evaluate({ async: true });
-  const athleticscontest = await new Roll('2d10+5').evaluate({ async: true });
-  const acrobaticscontest = await new Roll('2d10+5').evaluate({ async: true });
-  const constitutioncontest = await new Roll('2d10+5').evaluate({ async: true });
-  const complicationroll = await new Roll('1d100').evaluate({ async: true });
+  const athleticsroll = await new Roll(`1d20+${athmod}`).evaluate({
+    async: true,
+  });
+  const acrobaticsroll = await new Roll(`1d20+${acrmod}`).evaluate({
+    async: true,
+  });
+  const constitutionroll = await new Roll(`1d20+1d${highestdie}`).evaluate({
+    async: true,
+  });
+  const athleticscontest = await new Roll("2d10+5").evaluate({ async: true });
+  const acrobaticscontest = await new Roll("2d10+5").evaluate({ async: true });
+  const constitutioncontest = await new Roll("2d10+5").evaluate({
+    async: true,
+  });
+  const complicationroll = await new Roll("1d100").evaluate({ async: true });
   // Tally the successes
   let successes = 0;
   if (athleticsroll.total >= athleticscontest.total) {
@@ -38,23 +47,23 @@ async function main () {
   if (constitutionroll.total >= constitutioncontest.total) {
     successes++;
   }
-  let chatMsg = '';
+  let chatMsg = "";
   // Give gold based on the successes
   switch (successes) {
     case 0:
-      chatMsg = 'You lose all your bouts, earning nothing.';
+      chatMsg = "You lose all your bouts, earning nothing.";
       break;
     case 1:
-      chatMsg = 'Win 50 gp.';
+      chatMsg = "Win 50 gp.";
       break;
     case 2:
-      chatMsg = 'Win 100 gp.';
+      chatMsg = "Win 100 gp.";
       break;
     case 3:
-      chatMsg = 'Win 200 gp.';
+      chatMsg = "Win 200 gp.";
       break;
   }
-  function formatmessage (pcRoll, contestRoll) {
+  function formatmessage(pcRoll, contestRoll) {
     // Make the chat messages look "nice"
     // -- Want to add result dependant colouring
     const rollMsgOpen = `
@@ -90,9 +99,18 @@ async function main () {
         `;
     return rollMsgOpen;
   }
-  const athleticMsg = formatmessage(athleticsroll.total, athleticscontest.total);
-  const acrobaticMsg = formatmessage(acrobaticsroll.total, acrobaticscontest.total);
-  const constitutionMsg = formatmessage(constitutionroll.total, constitutioncontest.total);
+  const athleticMsg = formatmessage(
+    athleticsroll.total,
+    athleticscontest.total
+  );
+  const acrobaticMsg = formatmessage(
+    acrobaticsroll.total,
+    acrobaticscontest.total
+  );
+  const constitutionMsg = formatmessage(
+    constitutionroll.total,
+    constitutioncontest.total
+  );
   chatMsg += `
     <details closed="">
         <h3>Athletics test</h3>
@@ -107,7 +125,10 @@ async function main () {
   ChatMessage.create({ content: chatMsg, speaker: ChatMessage.getSpeaker() });
   // Check to see if a complication arises and output a message if so
   if (complicationroll.total <= 10) {
-    ChatMessage.create({ content: 'Complication!', speaker: ChatMessage.getSpeaker() });
+    ChatMessage.create({
+      content: "Complication!",
+      speaker: ChatMessage.getSpeaker(),
+    });
   }
 }
 

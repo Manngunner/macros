@@ -1,9 +1,9 @@
 /* global Roll, character, ui, ChatMessage */
-async function main () {
+async function main() {
   // This is a JavaScript comment
   // Check to see if active character. If not, chat error
   if (character == null) {
-    ui.notifications.error('You have no selected character');
+    ui.notifications.error("You have no selected character");
     return;
   }
   // Do this to yoink all the possible rolls for a character
@@ -13,13 +13,17 @@ async function main () {
   const natmod = actor.skills.nat.total;
   const surmod = actor.skills.sur.total;
   // Do all the relevant rolls
-  const medicineroll = await new Roll(`1d20+${medmod}`).evaluate({ async: true });
+  const medicineroll = await new Roll(`1d20+${medmod}`).evaluate({
+    async: true,
+  });
   const natureroll = await new Roll(`1d20+${natmod}`).evaluate({ async: true });
-  const survivalroll = await new Roll(`1d20+${surmod}`).evaluate({ async: true });
-  const medicinecontest = await new Roll('2d10+5').evaluate({ async: true });
-  const naturecontest = await new Roll('2d10+5').evaluate({ async: true });
-  const survivalcontest = await new Roll('2d10+5').evaluate({ async: true });
-  const complicationroll = await new Roll('1d100').evaluate({ async: true });
+  const survivalroll = await new Roll(`1d20+${surmod}`).evaluate({
+    async: true,
+  });
+  const medicinecontest = await new Roll("2d10+5").evaluate({ async: true });
+  const naturecontest = await new Roll("2d10+5").evaluate({ async: true });
+  const survivalcontest = await new Roll("2d10+5").evaluate({ async: true });
+  const complicationroll = await new Roll("1d100").evaluate({ async: true });
 
   // Tally the successes
   let successes = 0;
@@ -32,23 +36,23 @@ async function main () {
   if (survivalroll.total >= survivalcontest.total) {
     successes++;
   }
-  let chatMsg = '';
+  let chatMsg = "";
   // Give gold based on the successes
   switch (successes) {
     case 0:
-      chatMsg = 'You fail to find any usable/noteworthy fauna or flora';
+      chatMsg = "You fail to find any usable/noteworthy fauna or flora";
       break;
     case 1:
-      chatMsg = 'You find one specimen';
+      chatMsg = "You find one specimen";
       break;
     case 2:
-      chatMsg = 'You find two specimen';
+      chatMsg = "You find two specimen";
       break;
     case 3:
-      chatMsg = 'You find three specimen';
+      chatMsg = "You find three specimen";
       break;
   }
-  function formatmessage (pcRoll, contestRoll) {
+  function formatmessage(pcRoll, contestRoll) {
     // Make the chat messages look "nice"
     // -- Want to add result dependant colouring
     const rollMsgOpen = `
@@ -101,7 +105,10 @@ async function main () {
   ChatMessage.create({ content: chatMsg, speaker: ChatMessage.getSpeaker() });
   // Check to see if a complication arises and output a message if so
   if (complicationroll.total <= 10) {
-    ChatMessage.create({ content: 'Complication!', speaker: ChatMessage.getSpeaker() });
+    ChatMessage.create({
+      content: "Complication!",
+      speaker: ChatMessage.getSpeaker(),
+    });
   }
 }
 

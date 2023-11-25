@@ -7,52 +7,58 @@ const acrmod = playercharacter.skills.acr.total;
 const prfmod = playercharacter.skills.prf.total;
 // Create a dialog and ask the player to chose what skill they want
 new Dialog({
-  title: 'Choose which skill',
+  title: "Choose which skill",
   buttons: {
     str: {
       icon: '<i class="fas fa-hand-holding-medical"></i>',
-      label: 'Strength (Athletics): ' + athmod,
-      callback: () => main('strength')
+      label: "Strength (Athletics): " + athmod,
+      callback: () => main("strength"),
     },
     dex: {
       icon: '<i class="fas fa-hand-holding-medical"></i>',
-      label: 'Dexterity (Acrobatics): ' + acrmod,
-      callback: () => main('dexterity')
+      label: "Dexterity (Acrobatics): " + acrmod,
+      callback: () => main("dexterity"),
     },
     cha: {
       icon: '<i class="fas fa-medkit"></i>',
-      label: 'Charisma (Performance): ' + prfmod,
-      callback: () => main('charisma')
-    }
-  }
+      label: "Charisma (Performance): " + prfmod,
+      callback: () => main("charisma"),
+    },
+  },
 }).render(true);
 
-async function main (work) {
+async function main(work) {
   if (character == null) {
-    ui.notifications.error('You have no selected character');
+    ui.notifications.error("You have no selected character");
     return;
   }
-  if (work === 'strength') {
-    const rollresult = await new Roll(`1d20+${athmod}`).evaluate({ async: true });
+  if (work === "strength") {
+    const rollresult = await new Roll(`1d20+${athmod}`).evaluate({
+      async: true,
+    });
     message(rollresult);
-  } else if (work === 'dexterity') {
-    const rollresult = await new Roll(`1d20+${acrmod}`).evaluate({ async: true });
+  } else if (work === "dexterity") {
+    const rollresult = await new Roll(`1d20+${acrmod}`).evaluate({
+      async: true,
+    });
     message(rollresult);
-  } else if (work === 'charisma') {
-    const rollresult = await new Roll(`1d20+${prfmod}`).evaluate({ async: true });
+  } else if (work === "charisma") {
+    const rollresult = await new Roll(`1d20+${prfmod}`).evaluate({
+      async: true,
+    });
     message(rollresult);
   }
-  async function message (result) {
-    const complicationroll = await new Roll('1d100').evaluate({ async: true });
-    let chatMsg = '';
+  async function message(result) {
+    const complicationroll = await new Roll("1d100").evaluate({ async: true });
+    let chatMsg = "";
     if (result.total < 10) {
-      chatMsg = 'Poor lifestyle for the week';
+      chatMsg = "Poor lifestyle for the week";
     } else if (result.total >= 10 && result.total <= 14) {
-      chatMsg = 'Modest lifestyle for the week';
+      chatMsg = "Modest lifestyle for the week";
     } else if (result.total >= 15 && result.total <= 20) {
-      chatMsg = 'Comfortable lifestyle for the week';
+      chatMsg = "Comfortable lifestyle for the week";
     } else {
-      chatMsg = 'Comfortable lifestyle for the week + 25 gp';
+      chatMsg = "Comfortable lifestyle for the week + 25 gp";
     }
     chatMsg += `
         <details closed="">
@@ -66,7 +72,10 @@ async function main (work) {
     ChatMessage.create({ content: chatMsg, speaker: ChatMessage.getSpeaker() });
     // Check to see if a complication arises and output a message if so
     if (complicationroll.total <= 10) {
-      ChatMessage.create({ content: 'Complication!', speaker: ChatMessage.getSpeaker() });
+      ChatMessage.create({
+        content: "Complication!",
+        speaker: ChatMessage.getSpeaker(),
+      });
     }
   }
 }
